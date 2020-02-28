@@ -16,8 +16,8 @@ const MenuItem = ({
     onKeyPress={() => { history.push(`${match.url}${linkUrl}`); }}
   >
     <div
-      style={{ backgroundImage: `url(${imageUrl})` }}
       className="background-image"
+      style={{ backgroundImage: `url(${imageUrl})` }}
     />
     <div className="content">
       <div className="title">{title.toUpperCase()}</div>

@@ -4,15 +4,14 @@ import './App.css';
 
 
 import HomePage from './pages/homepage/homepage.component';
-
-const Hat = () => (<h1>Hats</h1>);
+import ShopPage from './pages/shop/shop.component';
 
 function App() {
   return (
     <div>
       <Switch>
         <Route exact path="/" component={HomePage} />
-        <Route path="/shop/hats" component={Hat} />
+        <Route path="/shop" component={ShopPage} />
       </Switch>
     </div>
   );
