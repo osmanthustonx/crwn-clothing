@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import './collection-item.styles.scss';
 
 const CollectionItem = ({
-  id, name, price, imageUrl,
+  name, price, imageUrl,
 }) => (
   <div className="collection-item">
     <div
@@ -21,7 +21,9 @@ const CollectionItem = ({
 );
 
 CollectionItem.propTypes = {
-
+  name: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired,
+  imageUrl: PropTypes.string.isRequired,
 };
 
 export default CollectionItem;
