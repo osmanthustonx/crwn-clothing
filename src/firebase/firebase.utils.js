@@ -46,6 +46,7 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
     }
   }
 
+  // eslint-disable-next-line consistent-return
   return userRef;
 };
 
