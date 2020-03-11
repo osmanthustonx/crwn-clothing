@@ -1,26 +1,23 @@
-/* eslint-disable react/button-has-type */
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import './custom-button.styles.scss';
+import { CustomButtonContainer } from './custom-button.styles';
 
-const CustomButton = ({
-  children, type, isGoogleSign, inverted, ...otherProps
-}) => (
-  <button className={`${inverted ? 'inverted' : ''} ${isGoogleSign ? 'google-sign-in' : ''} custom-button`} type={type} {...otherProps}>
-    {children}
-  </button>
+const CustomButton = ({ children, ...props }) => (
+  <CustomButtonContainer {...props}>{children}</CustomButtonContainer>
 );
 
 CustomButton.propTypes = {
-  children: PropTypes.string.isRequired,
+  props: PropTypes.objectOf(PropTypes.object),
   type: PropTypes.string.isRequired,
   isGoogleSign: PropTypes.bool,
   inverted: PropTypes.bool,
+  children: PropTypes.string.isRequired,
 };
 
 CustomButton.defaultProps = {
+  props: undefined,
   isGoogleSign: undefined,
   inverted: undefined,
 };

@@ -3,49 +3,54 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
-import CheckoutItem from '../../components/checkout-item/checkout-item.component';
 import StripeCheckoutButton from '../../components/stripe-button/stripe-button.component';
+import CheckoutItem from '../../components/checkout-item/checkout-item.component';
 
 import { selectCartItems, selectCartTotal } from '../../redux/cart/cart.selectors';
 
-
-import './checkout.styles.scss';
+import {
+  CheckoutPageContainer,
+  CheckoutHeaderContainer,
+  HeaderBlockContainer,
+  TotalContainer,
+  WarningContainer,
+} from './checkout.styles';
 
 const CheckoutPage = ({ cartItems, total }) => (
-  <div className="checkout-page">
-    <div className="checkout-header">
-      <div className="header-block">
+  <CheckoutPageContainer>
+    <CheckoutHeaderContainer>
+      <HeaderBlockContainer>
         <span>Product</span>
-      </div>
-      <div className="header-block">
+      </HeaderBlockContainer>
+      <HeaderBlockContainer>
         <span>Description</span>
-      </div>
-      <div className="header-block">
+      </HeaderBlockContainer>
+      <HeaderBlockContainer>
         <span>Quantity</span>
-      </div>
-      <div className="header-block">
+      </HeaderBlockContainer>
+      <HeaderBlockContainer>
         <span>Price</span>
-      </div>
-      <div className="header-block">
+      </HeaderBlockContainer>
+      <HeaderBlockContainer>
         <span>Remove</span>
-      </div>
-    </div>
+      </HeaderBlockContainer>
+    </CheckoutHeaderContainer>
     {
       cartItems.map((cartItem) => (
         <CheckoutItem key={cartItem.id} cartItem={cartItem} />
       ))
     }
-    <div className="total">
+    <TotalContainer>
       TOTAL: $
       {total}
-    </div>
-    <div className="test-warning">
+    </TotalContainer>
+    <WarningContainer>
       *Please following test credit card payment*
       <br />
       4242 4242 4242 4242 - Exp: 03/20 - CVC: 123
-    </div>
+    </WarningContainer>
     <StripeCheckoutButton price={total} />
-  </div>
+  </CheckoutPageContainer>
 );
 
 CheckoutPage.propTypes = {

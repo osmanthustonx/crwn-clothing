@@ -2,9 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
-import { clearItemFromCart, addItem, removeItem } from '../../redux/cart/cart.action';
+import { clearItemFromCart, addItem, removeItem } from '../../redux/cart/cart.actions';
 
-import './checkout-item.styles.scss';
+import {
+  CheckoutItemContainer,
+  ImageContainer,
+  TextContainer,
+  QuantityContainer,
+  RemoveButtonContainer,
+} from './checkout-item.styles';
 
 const CheckoutItem = ({
   cartItem, clearItem, addItemAction, removeItemAction,
@@ -13,12 +19,12 @@ const CheckoutItem = ({
     name, imageUrl, price, quantity,
   } = cartItem;
   return (
-    <div className="checkout-item">
-      <div className="image-container">
+    <CheckoutItemContainer>
+      <ImageContainer>
         <img src={imageUrl} alt="itemImage" />
-      </div>
-      <span className="name">{name}</span>
-      <span className="quantity">
+      </ImageContainer>
+      <TextContainer className="name">{name}</TextContainer>
+      <QuantityContainer className="quantity">
         <div
           role="button"
           tabIndex="0 "
@@ -26,10 +32,9 @@ const CheckoutItem = ({
           onClick={() => removeItemAction(cartItem)}
           onKeyPress={() => removeItemAction(cartItem)}
         >
-        &#10094;
-
+          &#10094;
         </div>
-        <div className="value">{quantity}</div>
+        <span>{quantity}</span>
         <div
           role="button"
           tabIndex="0"
@@ -37,21 +42,20 @@ const CheckoutItem = ({
           onClick={() => addItemAction(cartItem)}
           onKeyPress={() => addItemAction(cartItem)}
         >
-&#10095;
-
+          &#10095;
         </div>
-      </span>
-      <span className="price">{price}</span>
-      <div
+      </QuantityContainer>
+      <TextContainer>{price}</TextContainer>
+      <RemoveButtonContainer
         role="button"
         tabIndex="0"
         className="remove-button"
         onClick={() => clearItem(cartItem)}
         onKeyPress={() => clearItem(cartItem)}
       >
-      &#10005;
-      </div>
-    </div>
+        &#10005;
+      </RemoveButtonContainer>
+    </CheckoutItemContainer>
   );
 };
 
