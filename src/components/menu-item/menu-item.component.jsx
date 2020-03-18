@@ -14,16 +14,14 @@ const MenuItem = ({
   title, imageUrl, size, history, linkUrl, match,
 }) => (
   <MenuItemContainer
-    role="link"
-    tabIndex={0}
     size={size}
-    onClick={() => { history.push(`${match.url}${linkUrl}`); }}
-    onKeyPress={() => { history.push(`${match.url}${linkUrl}`); }}
+    onClick={() => history.push(`${match.url}${linkUrl}`)}
   >
     <BackgroundImageContainer
-      style={{ backgroundImage: `url(${imageUrl})` }}
+      className="background-image"
+      imageUrl={imageUrl}
     />
-    <ContentContainer>
+    <ContentContainer className="content">
       <ContentTitle>{title.toUpperCase()}</ContentTitle>
       <ContentSubtitle>SHOP NOW</ContentSubtitle>
     </ContentContainer>
