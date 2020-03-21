@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -13,68 +13,57 @@ import {
   ButtonsBarContainer,
 } from './sign-in.styles';
 
-class SignIn extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      email: '',
-      password: '',
-    };
-  }
+const SignIn = ({ emailSignInStartAction, googleSignInStartAction }) => {
+  const [userCredentials, setCredentials] = useState({ email: '', password: '' });
+  const { email, password } = userCredentials;
 
-  handleSubmit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const { emailSignInStartAction } = this.props;
-    const { email, password } = this.state;
 
     emailSignInStartAction(email, password);
-  }
+  };
 
-  handleChange = (e) => {
+  const handleChange = (e) => {
     const { value, name } = e.target;
-    this.setState({ [name]: value });
-  }
+    setCredentials({ ...userCredentials, [name]: value });
+  };
 
-  render() {
-    const { email, password } = this.state;
-    const { googleSignInStartAction } = this.props;
-    return (
-      <SignInContainer>
-        <SignInTitle>I already have an account</SignInTitle>
-        <span>Sign in with your email and password.</span>
-        <form onSubmit={this.handleSubmit}>
-          <FormInput
-            type="email"
-            inputMode="email"
-            name="email"
-            value={email}
-            handleChange={this.handleChange}
-            label="email"
-            required
-          />
-          <FormInput
-            type="password"
-            name="password"
-            value={password}
-            handleChange={this.handleChange}
-            label="password"
-            required
-          />
-          <ButtonsBarContainer>
-            <CustomButton type="submit">Sign in</CustomButton>
-            <CustomButton
-              type="button"
-              onClick={googleSignInStartAction}
-              isGoogleSignIn
-            >
+  return (
+    <SignInContainer>
+      <SignInTitle>I already have an account</SignInTitle>
+      <span>Sign in with your email and password.</span>
+      <form onSubmit={handleSubmit}>
+        <FormInput
+          type="email"
+          inputMode="email"
+          name="email"
+          value={email}
+          handleChange={handleChange}
+          label="email"
+          required
+        />
+        <FormInput
+          type="password"
+          name="password"
+          value={password}
+          handleChange={handleChange}
+          label="password"
+          required
+        />
+        <ButtonsBarContainer>
+          <CustomButton type="submit">Sign in</CustomButton>
+          <CustomButton
+            type="button"
+            onClick={googleSignInStartAction}
+            isGoogleSignIn
+          >
               Sign in with Google
-            </CustomButton>
-          </ButtonsBarContainer>
-        </form>
-      </SignInContainer>
-    );
-  }
-}
+          </CustomButton>
+        </ButtonsBarContainer>
+      </form>
+    </SignInContainer>
+  );
+};
 
 SignIn.propTypes = {
   googleSignInStartAction: PropTypes.func.isRequired,
