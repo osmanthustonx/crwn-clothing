@@ -29,7 +29,7 @@ const MenuItem = ({
 MenuItem.propTypes = {
   title: PropTypes.string.isRequired,
   imageUrl: PropTypes.string.isRequired,
-  size: PropTypes.string.isRequired,
+  size: PropTypes.string,
   linkUrl: PropTypes.string.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func,
@@ -37,6 +37,10 @@ MenuItem.propTypes = {
   match: PropTypes.shape({
     url: PropTypes.string,
   }).isRequired,
+};
+
+MenuItem.defaultProps = {
+  size: undefined,
 };
 
 export default withRouter(MenuItem);

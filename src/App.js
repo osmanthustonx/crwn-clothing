@@ -1,40 +1,44 @@
 import React, { Component } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
 import './App.css';
-
 
 import HomePage from './pages/homepage/homepage.component';
 import ShopPage from './pages/shop/shop.component';
 import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component';
 import CheckoutPage from './pages/checkout/checkout.component';
-
 import Header from './components/header/header.component';
 
 import { auth, createUserProfileDocument } from './firebase/firebase.utils';
 
-import { setCurrentUser } from './redux/user/user.action';
-import { selectCurrentUser } from './redux/user/user.selector';
+import CurrentUserContext from './contexts/current-user/current-user.context';
 
 class App extends Component {
   unsubscribeFromAuth = null;
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      currentUser: null,
+    };
+  }
+
+
   componentDidMount() {
-    // eslint-disable-next-line no-shadow
-    const { setCurrentUser } = this.props;
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
       if (userAuth) {
         const userRef = await createUserProfileDocument(userAuth);
         userRef.onSnapshot((snapShot) => {
-          setCurrentUser({
-            id: snapShot.id,
-            ...snapShot.data(),
+          this.setState({
+            currentUser: {
+              id: snapShot.id,
+              ...snapShot.data(),
+            },
           });
         });
       } else {
-        setCurrentUser(userAuth);
+        this.setState({ currentUser: userAuth });
       }
     });
   }
@@ -44,10 +48,12 @@ class App extends Component {
   }
 
   render() {
-    const { currentUser } = this.props;
+    const { currentUser } = this.state;
     return (
       <div>
-        <Header />
+        <CurrentUserContext.Provider value={currentUser}>
+          <Header />
+        </CurrentUserContext.Provider>
         <Switch>
           <Route exact path="/" component={HomePage} />
           <Route path="/shop" component={ShopPage} />
@@ -64,7 +70,6 @@ class App extends Component {
 }
 
 App.propTypes = {
-  setCurrentUser: PropTypes.func.isRequired,
   currentUser: PropTypes.shape({
     id: PropTypes.string,
   }),
@@ -74,12 +79,5 @@ App.defaultProps = {
   currentUser: null,
 };
 
-const mapStateToProps = createStructuredSelector({
-  currentUser: selectCurrentUser,
-});
 
-const mapDispatchToProps = (dispatch) => ({
-  setCurrentUser: (user) => dispatch(setCurrentUser(user)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App;

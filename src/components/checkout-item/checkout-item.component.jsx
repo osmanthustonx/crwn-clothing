@@ -1,17 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 
-import { connect } from 'react-redux';
-import { clearItemFromCart, addItem, removeItem } from '../../redux/cart/cart.action';
+import { CartContext } from '../../providers/cart/cart.provider';
 
 import './checkout-item.styles.scss';
 
-const CheckoutItem = ({
-  cartItem, clearItem, addItemAction, removeItemAction,
-}) => {
+const CheckoutItem = ({ cartItem }) => {
   const {
     name, imageUrl, price, quantity,
   } = cartItem;
+  const { addItem, removeItem, clearItemFromCart } = useContext(CartContext);
   return (
     <div className="checkout-item">
       <div className="image-container">
@@ -23,8 +21,8 @@ const CheckoutItem = ({
           role="button"
           tabIndex="0 "
           className="arrow"
-          onClick={() => removeItemAction(cartItem)}
-          onKeyPress={() => removeItemAction(cartItem)}
+          onClick={() => removeItem(cartItem)}
+          onKeyPress={() => removeItem(cartItem)}
         >
         &#10094;
 
@@ -34,8 +32,8 @@ const CheckoutItem = ({
           role="button"
           tabIndex="0"
           className="arrow"
-          onClick={() => addItemAction(cartItem)}
-          onKeyPress={() => addItemAction(cartItem)}
+          onClick={() => addItem(cartItem)}
+          onKeyPress={() => addItem(cartItem)}
         >
 &#10095;
 
@@ -46,8 +44,8 @@ const CheckoutItem = ({
         role="button"
         tabIndex="0"
         className="remove-button"
-        onClick={() => clearItem(cartItem)}
-        onKeyPress={() => clearItem(cartItem)}
+        onClick={() => clearItemFromCart(cartItem)}
+        onKeyPress={() => clearItemFromCart(cartItem)}
       >
       &#10005;
       </div>
@@ -62,15 +60,7 @@ CheckoutItem.propTypes = {
     price: PropTypes.number,
     quantity: PropTypes.number,
   }).isRequired,
-  clearItem: PropTypes.func.isRequired,
-  addItemAction: PropTypes.func.isRequired,
-  removeItemAction: PropTypes.func.isRequired,
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  clearItem: (item) => dispatch(clearItemFromCart(item)),
-  addItemAction: (item) => dispatch(addItem(item)),
-  removeItemAction: (item) => dispatch(removeItem(item)),
-});
 
-export default connect(null, mapDispatchToProps)(CheckoutItem);
+export default CheckoutItem;
