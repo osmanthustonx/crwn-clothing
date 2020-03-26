@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 
 import {
@@ -36,4 +36,4 @@ CartItem.propTypes = {
   }).isRequired,
 };
 
-export default CartItem;
+export default memo(CartItem);
